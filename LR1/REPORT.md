@@ -101,7 +101,7 @@ false.
 ```prolog
 % Формат ввода: (подсписок, список)
 msublist(X,Y) :-
-    mappend(S,L,M),
+    mappend(S,L,Y),
     mappend(X,S,L).
 ```
 Пример работы:
