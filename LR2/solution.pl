@@ -45,4 +45,36 @@ solve:-People=[_,_,_,_],
 
     write(People).
 
+merge_lists([], [], []).
+merge_lists([Start1|End1], [Start2|End2], [[Start1,Start2]|X]):-
+    merge_lists(End1, End2, X).
+
+
+solve2:-
+    permutation(X, [voronov, pavlov, levickiy, sakharov]),
+    permutation(Y, [dancer, artist, singer, writer]),
+    merge_lists(X,Y,People),
+
+    not(in_list(People,[voronov,singer])),
+    not(in_list(People,[levickiy,singer])),
+
+    not(in_list(People,[pavlov,artist])),
+    not(in_list(People,[pavlov,writer])),
+
+    not(in_list(People,[sakharov,writer])),
+    not(in_list(People,[voronov,writer])),
+    
+    meet([_,artist],[pavlov,_]),
+    meet([_,artist],[_, writer]),
+    meet([pavlov,_],[_, writer]),
+    meet([_,writer],[pavlov,_]),
+    meet([pavlov,_],[_,artist]),
+    meet([_,writer],[_,artist]),
+
+    meet([_,writer],[sakharov,_]),
+    meet([_,writer],[voronov,_]),
+    meet([voronov,_],[levickiy,_]),
+
+    write(People),!.
+
 

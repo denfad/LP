@@ -57,8 +57,48 @@ know(voronov,levickiy).
 ```prolog
 meet([X|Y],[X2|Y2]):-know(X, X2);know(Y, X2);know(X, Y2);know(Y, X2).
 ```
-В итоге записываем окончательный предикат `solve`, в котором и будем проводить все опреации. В нём мы перебираем все возможные комбинации в списке `People`, проверяя каждую комбинацию на соответствию условию. В конце мы выводим список.
+
+Предикат `merge_lists` позволит нам сливать два массива в массив пар элементов из этих двух списков.
+```Prolog
+merge_lists([], [], []).
+merge_lists([Start1|End1], [Start2|End2], [[Start1,Start2]|X]):-
+    merge_lists(End1, End2, X).
+```
+В итоге записываем окончательный предикат `solve2`, в котором и будем проводить все опреации. В нём мы перебираем все возможные комбинации в списке `People`, проверяя каждую комбинацию на соответствию условию. В конце мы выводим список.
 ```prolog
+solve2:-
+    permutation(X, [voronov, pavlov, levickiy, sakharov]),
+    permutation(Y, [dancer, artist, singer, writer]),
+    merge_lists(X,Y,People),
+
+    not(in_list(People,[voronov,singer])),
+    not(in_list(People,[levickiy,singer])),
+
+    not(in_list(People,[pavlov,artist])),
+    not(in_list(People,[pavlov,writer])),
+
+    not(in_list(People,[sakharov,writer])),
+    not(in_list(People,[voronov,writer])),
+    
+    meet([_,artist],[pavlov,_]),
+    meet([_,artist],[_, writer]),
+    meet([pavlov,_],[_, writer]),
+    meet([_,writer],[pavlov,_]),
+    meet([pavlov,_],[_,artist]),
+    meet([_,writer],[_,artist]),
+
+    meet([_,writer],[sakharov,_]),
+    meet([_,writer],[voronov,_]),
+    meet([voronov,_],[levickiy,_]),
+
+    write(People),!.
+```
+
+Данное решение безопасно, так как по сути все наше решение построено на проверке решений с помощью предикатов, однако из за перебора всех вариантов на больших данных программа может работать медленно.
+
+Давайте напишем предикат `solve`, который справляется без перебора, тогда программа будет справляться гораздо быстрее. Но для этого нам придётся дописать условия наличия элементов в списке  People и убрать перебор списка.
+
+```Prolog
 solve:-People=[_,_,_,_],
     in_list(People,[_,dancer]),
     in_list(People,[_,artist]),
@@ -92,8 +132,6 @@ solve:-People=[_,_,_,_],
 
     write(People).
 ```
-
-Данное решение безопасно, так как по сути все наше решение построено на проверке решений с помощью предикатов, однако мы производим полный перебор решений, что на больших входных данных выполнялось бы намного дольше.
 
 ## Выводы
 
