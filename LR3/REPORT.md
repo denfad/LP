@@ -101,7 +101,6 @@ wdth([_|T],X,R) :- wdth(T,X,R).
 ```prolog
 searchId(Start,Finish) :- write('searchId START'), nl,get_time(ITER), inc(DepthLimit),depthId([Start],Finish,Res,DepthLimit),
     printRes(Res),get_time(ITER1),write('searchId END'), nl, nl,T1 is ITER1 - ITER, write('TIME IS '), write(T1), nl, nl.
-searchId(Start,Finish,Path) :- inc(Level),depthId(Start,Finish,Path,Level).
 
 depthId([Finish|T],Finish,[Finish|T],0).
 depthId(Path,Finish,R,N) :- N > 0,prolong(Path,NewPath),N1 is N - 1,depthId(NewPath,Finish,R,N1).
