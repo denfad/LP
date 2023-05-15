@@ -76,5 +76,3 @@ solve2:-
     meet([voronov,_],[levickiy,_]),
 
     write(People),!.
-
-

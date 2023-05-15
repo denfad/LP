@@ -68,7 +68,7 @@ shurin([Z,X]):- wife(W, X), brother(Z, W).
 find([First|_], First).
 find([_|End_list], First):- find(End_list, First).
 
-all_shurin(Shurin):-findall(Shurin,shurin(Shurin),Shurin).
+all_shurin(Shurins):-findall(Shurin,shurin(Shurin),Shurins).
 
 dubl([], []).
 dubl([First|End_list], Output) :- dubl(End_list, New_list),
